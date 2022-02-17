@@ -4,22 +4,26 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="departamento", schema = "tarefas")
-public class Departamento implements Serializable {
+@Table(name = "pessoa", schema = "tarefas")
+public class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String titulo;
+    private String nome;
 
-    public Departamento() {
+    @ManyToOne
+    @JoinColumn(name = "id_departamento")
+    private Departamento departamento;
+
+    public Pessoa() {
     }
 
-    public Departamento(Long id, String titulo) {
-        super();
+    public Pessoa(Long id, String nome, Departamento departamento) {
         this.id = id;
-        this.titulo = titulo;
+        this.nome = nome;
+        this.departamento = departamento;
     }
 
     public Long getId() {
@@ -30,12 +34,20 @@ public class Departamento implements Serializable {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getNome() {
+        return nome;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Departamento getDepartamento() {
+        return departamento;
+    }
+
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
 
     @Override
@@ -54,7 +66,7 @@ public class Departamento implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Departamento other = (Departamento) obj;
+        Pessoa other = (Pessoa) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -62,5 +74,4 @@ public class Departamento implements Serializable {
             return false;
         return true;
     }
-
 }
